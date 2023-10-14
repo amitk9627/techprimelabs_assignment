@@ -1,0 +1,45 @@
+const mongoose=require('mongoose');
+const projectSchema= new mongoose.Schema({
+    projectName:{
+        type:String,
+        required:true
+    },
+    reason:{
+        type:String,
+        required:true
+    },
+    type:{
+        type:String,
+        required:true
+    },
+    category:{
+        type:String,
+        required:true
+    },
+    priority:{
+        type:String,
+        required:true
+    },
+    department:{
+        type:String,
+        required:true
+    },
+    startDate:{
+        type:String,
+        required:true
+    },
+    endData:{
+        type:String,
+        required:true
+    },
+    location:{
+        type:String,
+        required:true
+    },
+    status:{
+        type:String,
+        required:true
+    },
+});
+const Projects=mongoose.model('Project',projectSchema);
+module.exports=Projects;
