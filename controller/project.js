@@ -1,11 +1,12 @@
 const Projects = require('../model/project.js');
 
 const getProject = async (req, res) => {
-
+    const totalCount=await Projects.find({}).count();
     const allprojects = await Projects.find({});
     res.json({
         status: true,
-        allprojects
+        totalCount,
+        allprojects,
     })
 }
 
