@@ -28,7 +28,7 @@ const projectSchema= new mongoose.Schema({
         type:String,
         required:true
     },
-    endData:{
+    endDate:{
         type:String,
         required:true
     },
