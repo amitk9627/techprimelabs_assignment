@@ -2,16 +2,10 @@ const Projects = require('../model/project.js');
 
 const getDash=async (req,res)=>{
 
-    const totalCount=await Projects.find({}).count();
-    const running = await Projects.find({status:'Running'}).count();
-    const cancel = await Projects.find({status:'Cancelled'}).count();
-    const close = await Projects.find({status:'Close'}).count();
+    const alldata=await Projects.find({});
+  
     res.json({
-        status: true,
-        totalCount,
-        running,
-        cancel,
-        close
+        alldata,
     })
 
 
