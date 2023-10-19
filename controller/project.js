@@ -1,9 +1,10 @@
+const { response } = require('express');
 const Projects = require('../model/project.js');
 
-const getDash=async (req,res)=>{
+const getDash = async (req, res) => {
 
-    const alldata=await Projects.find({});
-  
+    const alldata = await Projects.find({});
+
     res.json({
         alldata,
     })
@@ -11,7 +12,7 @@ const getDash=async (req,res)=>{
 
 }
 const getProject = async (req, res) => {
-    const totalCount=await Projects.find({}).count();
+    const totalCount = await Projects.find({}).count();
     const allprojects = await Projects.find({});
     res.json({
         status: true,
@@ -56,22 +57,31 @@ const createProject = async (req, res) => {
         })
     }
 }
-const editProject= async (req,res)=>{
-    const{ projectId,str}=req.body;
-    try{
-        await Projects.findByIdAndUpdate(projectId,{status:str});
+const editProject = async (req, res) => {
+    const { projectId, str } = req.body;
+    try {
+        await Projects.findByIdAndUpdate(projectId, { status: str });
         res.json({
-        status:true,
-       
-    })
-    }catch(e){
+            status: true,
+
+        })
+    } catch (e) {
         res.status(404).json({
-            status:false
+            status: false
         })
     }
-    
+
+
+}
+const sortProject = async (req, res) => {
+    const field=req.body;
+   
+    const allProject = await Projects.find({}).sort(field);
+    res.status(200).json({
+        allProject
+    })
 
 }
 module.exports = {
-    getProject, createProject,editProject,getDash
+    getProject, createProject, editProject, getDash, sortProject
 }
