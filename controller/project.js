@@ -94,35 +94,32 @@ const sortProject = async (req, res) => {
     })
 
 }
-const dashDepartment=async (req,res)=>{
-   
-      
-
-        try {
-            const departmentData = await Projects.aggregate([
-              {
+const dashDepartment = async (req, res) => {
+    try {
+        const departmentData = await Projects.aggregate([
+            {
                 $group: {
-                  _id: "$department",
-                  totalData: { $sum: 1 }, // Calculate total data for each department
-                  totalClosed: {
-                    $sum: {
-                      $cond: [{ $eq: ["$status", "Close"] }, 1, 0], // Calculate total closed data for each department
+                    _id: "$department",
+                    totalData: { $sum: 1 }, // Calculate total data for each department
+                    totalClosed: {
+                        $sum: {
+                            $cond: [{ $eq: ["$status", "Close"] }, 1, 0], // Calculate total closed data for each department
+                        },
                     },
-                  },
                 },
-              },
-            ]);
-        
-            res.json(departmentData);
-          } catch (error) {
-            res
-              .status(500)
-              .json({
+            },
+        ]);
+
+        res.json(departmentData);
+    } catch (error) {
+        res
+            .status(500)
+            .json({
                 message: "Error fetching department data",
                 error: error.message,
-              });
-          }
+            });
+    }
 }
 module.exports = {
-    getProject, createProject, editProject, getDash, sortProject,dashDepartment
+    getProject, createProject, editProject, getDash, sortProject, dashDepartment
 }
