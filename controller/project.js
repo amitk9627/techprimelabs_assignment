@@ -2,13 +2,25 @@ const { response } = require('express');
 const Projects = require('../model/project.js');
 
 const getDash = async (req, res) => {
-
-    const alldata = await Projects.find({});
-
-    res.json({
-        alldata,
-    })
-
+    try {
+        const alldata = await Projects.find({});
+        const totalProject = alldata.length;
+        const totalClosedIds = alldata.filter((project) => project.status === "Close").length;
+        const totalRunningIds = alldata.filter((project) => project.status === "Running").length;
+        const totalCancelIds = alldata.filter((project) => project.status === "Cancelled").length;
+        const closerIds = alldata.filter(
+            (project) => project.status === "Running" && new Date(project.endDate) < new Date()
+        ).length;
+        res.json({
+            totalProject,
+            totalClosedIds,
+            totalRunningIds,
+            totalCancelIds,
+            closerIds
+        })
+    } catch (error) {
+        res.status(500).json({ error: "Failed to calculate project statistics" });
+    }
 
 }
 const getProject = async (req, res) => {
@@ -74,8 +86,8 @@ const editProject = async (req, res) => {
 
 }
 const sortProject = async (req, res) => {
-    const field=req.body;
-   
+    const field = req.body;
+
     const allProject = await Projects.find({}).sort(field);
     res.status(200).json({
         allProject
